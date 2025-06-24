@@ -5,7 +5,6 @@
 Tests for correct code completion of the PrimeHub class.
 """
 
-
 import json
 from pybricks_jedi import CompletionItem, complete
 
@@ -142,4 +141,16 @@ def test_hub_dot_system_dot():
         "set_stop_button",
         "shutdown",
         "storage",
+    ]
+
+
+def test_hub_dot_ble_dot():
+    line = "hub.ble."
+    code = _create_snippet(line)
+    completions: list[CompletionItem] = json.loads(complete(code, 3, len(line) + 1))
+    assert [c["insertText"] for c in completions] == [
+        "broadcast",
+        "observe",
+        "signal_strength",
+        "version",
     ]
