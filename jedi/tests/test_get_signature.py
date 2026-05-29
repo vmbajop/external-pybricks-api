@@ -971,7 +971,12 @@ METHOD_PARAMS = [
         "turn",
         [
             (
-                ["angle: Number", "then: Stop=Stop.HOLD", "wait: bool=True"],
+                [
+                    "angle: Number",
+                    "then: Stop=Stop.HOLD",
+                    "wait: bool=True",
+                    "absolute: bool=False",
+                ],
                 "MaybeAwaitable",
             )
         ],
@@ -1000,13 +1005,16 @@ METHOD_PARAMS = [
             (
                 [
                     "straight_speed: Optional[Number]=None",
-                    "straight_acceleration: Optional[Number]=None",
+                    "straight_acceleration: Optional[Union[Number, Tuple[Number, Number]]]=None",
                     "turn_rate: Optional[Number]=None",
-                    "turn_acceleration: Optional[Number]=None",
+                    "turn_acceleration: Optional[Union[Number, Tuple[Number, Number]]]=None",
                 ],
                 "None",
             ),
-            ([], "Tuple[int, int, int, int]"),
+            (
+                [],
+                "Tuple[int, Union[int, Tuple[int, int]], int, Union[int, Tuple[int, int]]]",
+            ),
         ],
     ),
     pytest.param(

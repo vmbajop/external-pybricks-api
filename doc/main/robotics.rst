@@ -27,24 +27,15 @@
 
     .. automethod:: pybricks.robotics.DriveBase.turn
 
-    .. versionchanged:: 3.6
-
-        The ``curve()`` Python method will be replaced by the :meth:`.arc`
-        method. It can still make curves, but it uses different definitions
-        for drive and turn direction. Existing code with ``curve()`` continues
-        to work the same, but you should use :meth:`.arc` for new code.
-        If you use block code, you can pick a new block from the palette to
-        update your code. The old block will still work, but it displays a
-        warning icon to remind you to upgrade. The updated `curve` option uses
-        the direction definitions given below. The new `veer` option lets
-        you drive along a circle by a given distance, which is useful for
-        veering slightly in one direction.
-
     .. blockimg:: pybricks_blockDriveBaseDrive2_drivebase_drive_arc_angle
 
     .. blockimg:: pybricks_blockDriveBaseDrive2_drivebase_drive_arc_distance
 
     .. automethod:: pybricks.robotics.DriveBase.arc
+
+    .. pybricks-requirements:: stm32-float
+
+    .. automethod:: pybricks.robotics.DriveBase.move_by
 
     .. blockimg:: pybricks_blockDriveBaseConfigure_drivebase_straight_speed
 
@@ -79,6 +70,8 @@
     .. automethod:: pybricks.robotics.DriveBase.brake
 
     .. blockimg:: pybricks_blockDriveBaseStop_hold
+
+    .. automethod:: pybricks.robotics.DriveBase.hold
 
     .. rubric:: Measuring
 
