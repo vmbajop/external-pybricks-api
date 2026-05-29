@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Tuple, Optional, overload, TYPE_CHECKING
+from typing import Tuple, Optional, overload, TYPE_CHECKING
 
 from . import _common
 from .parameters import Port as _Port
@@ -25,13 +25,21 @@ class PUPDevice:
             port (Port): Port to which the device is connected.
         """
 
-    def info(self) -> Dict[str, str]:
+    def info(self) -> dict:
         """info() -> Dict
 
         Gets information about the device.
 
+        For passive devices (such as DC motors or lights), returns a
+        dictionary with only the ``id`` key.
+
+        For UART devices, returns a dictionary with an ``id`` key and a
+        ``modes`` key. The ``modes`` value is a tuple of tuples, one per
+        mode, each containing the mode name, number of values, and data
+        type.
+
         Returns:
-            Dictionary with information, such as the device ``id``.
+            Dictionary with device information.
         """
 
     def read(self, mode: int) -> MaybeAwaitableTuple:
@@ -39,79 +47,70 @@ class PUPDevice:
 
         Reads values from a given mode.
 
+        For passive touch sensors, this returns a single boolean value
+        indicating whether the sensor is pressed, regardless of the
+        ``mode`` argument.
+
+        Raises an error for other passive devices such as DC motors and
+        lights, which do not support reading.
+
         Arguments:
             mode (int): Device mode.
 
         Returns:
-            Values read from the sensor.
+            Values read from the device.
+
+        Raises:
+            OSError: If the device is a passive device that does not
+                support reading (e.g. a DC motor or light).
         """
 
     def write(self, mode: int, data: Tuple) -> MaybeAwaitable:
         """write(mode, data)
 
-        Writes values to the sensor. Only selected sensors and modes support
-        this.
+        Writes values to the device. Only selected UART devices and modes
+        support this.
 
         Arguments:
             mode (int): Device mode.
-            data (tuple): Values to be written.
+            data (tuple): Values to be written. The number of values and
+                their types must match what the device expects for the
+                given mode.
+
+        Raises:
+            OSError: If the device is a passive device that does not
+                support writing.
+            ValueError: If the mode is invalid, the mode is not writable,
+                the number of values does not match, or a value is out of
+                range for its data type.
+        """
+
+    def reset(self) -> None:
+        """reset()
+
+        Resets the UART device. After this, it should automatically synchronize
+        and be ready for use after a few seconds. This is useful to forcefully
+        re-trigger what such a sensor does when plugged in.
+
+        Raises:
+            OSError: If the device is a passive device that does not
+                support reset.
         """
 
 
-class LUMPDevice:
-    """Devices using the LEGO UART Messaging Protocol."""
+class LUMPDevice(PUPDevice):
+    """Devices using the LEGO UART Messaging Protocol.
 
-    def __init__(self, port: _Port):
-        """LUMPDevice(port)
+    This is functionally equivalent to the PUPDevice class shown above, since
+    EV3 and Powered UP use the same UART protocol.
 
-        Arguments:
-            port (Port): Port to which the device is connected.
-        """
-
-    def read(self, mode: int) -> MaybeAwaitableTuple:
-        """read(mode) -> Tuple
-
-        Reads values from a given mode.
-
-        Arguments:
-            mode (int): Device mode.
-
-        Returns:
-            Values read from the sensor.
-        """
+    On EV3, this class provides access to UART devices only. You can use other
+    classes to interact with passive devices.
+    """
 
 
 class DCMotor(_common.DCMotor):
     """DC Motor for LEGO® MINDSTORMS EV3."""
-
-
-class Ev3devSensor:
-    """Read values of an ev3dev-compatible sensor."""
-
-    sensor_index: int
-    """Index of the ev3dev sysfs `lego-sensor`_ class."""
-
-    port_index: int
-    """Index of the ev3dev sysfs `lego-port`_ class."""
-
-    def __init__(self, port: _Port):
-        """Ev3devSensor(port)
-
-        Arguments:
-            port (Port): Port to which the device is connected.
-        """
-
-    def read(self, mode: str) -> MaybeAwaitableTuple:
-        """read(mode) -> Tuple
-
-        Reads values at a given mode.
-
-        Arguments:
-            mode (str): `Mode name`_.
-
-        Returns:
-            values read from the sensor.
-        """
 
 
 class AnalogSensor:
@@ -175,7 +174,14 @@ class AnalogSensor:
 class I2CDevice:
     """Generic or custom I2C device."""
 
-    def __init__(self, port: _Port, address: int, custom: bool = False, powered: bool = False, nxt_quirk: bool = False):
+    def __init__(
+        self,
+        port: _Port,
+        address: int,
+        custom: bool = False,
+        powered: bool = False,
+        nxt_quirk: bool = False,
+    ):
         """I2CDevice(port, address, custom=False, powered=False, nxt_quirk=False)
 
         Arguments:
@@ -218,7 +224,9 @@ class I2CDevice:
 class UARTDevice:
     """Generic UART device."""
 
-    def __init__(self, port: _Port, baudrate: int = 115200, timeout: Optional[int] = None):
+    def __init__(
+        self, port: _Port, baudrate: int = 115200, timeout: Optional[int] = None
+    ):
         """UARTDevice(port, baudrate=115200, timeout=None)
 
         Arguments:
@@ -394,7 +402,13 @@ class XboxController:
 
     buttons = _common.Keypad([])
 
-    def __init__(self, joystick_deadzone: int = 10, name: Optional[str] = None, timeout: int = 10000, connect: bool = True):
+    def __init__(
+        self,
+        joystick_deadzone: int = 10,
+        name: Optional[str] = None,
+        timeout: int = 10000,
+        connect: bool = True,
+    ):
         """__init__(joystick_deadzone=10, name=None, timeout=10000, connect=True)
 
         Arguments:

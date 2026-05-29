@@ -22,16 +22,16 @@ FEATURES_LARGE = FEATURES_MEDIUM | set()
 
 # Features per hub.
 HUB_FEATURES = {
-    "movehub": {"movehub", "ble"} | FEATURES_SMALL,
-    "cityhub": {"cityhub", "ble"} | FEATURES_MEDIUM,
-    "technichub": {"technichub", "gyro", "xbox-controller", "ble"} | FEATURES_MEDIUM,
+    "movehub": {"movehub", "pup"} | FEATURES_SMALL,
+    "cityhub": {"cityhub", "pup"} | FEATURES_MEDIUM,
+    "technichub": {"technichub", "gyro", "xbox-controller", "pup"} | FEATURES_MEDIUM,
     "primehub": {
         "primehub",
         "inventorhub",
         "light-matrix",
         "gyro",
         "xbox-controller",
-        "ble",
+        "pup",
     }
     | FEATURES_LARGE,
     "inventorhub": {
@@ -40,10 +40,10 @@ HUB_FEATURES = {
         "light-matrix",
         "gyro",
         "xbox-controller",
-        "ble",
+        "pup",
     }
     | FEATURES_LARGE,
-    "essentialhub": {"essentialhub", "gyro", "xbox-controller", "ble"} | FEATURES_LARGE,
+    "essentialhub": {"essentialhub", "gyro", "xbox-controller", "pup"} | FEATURES_LARGE,
 }
 
 

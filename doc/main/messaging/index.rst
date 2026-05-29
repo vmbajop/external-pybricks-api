@@ -4,7 +4,7 @@
 .. automodule:: pybricks.messaging
     :no-members:
 
-.. pybricks-requirements:: ble
+.. pybricks-requirements:: pup
 
 .. autoclass:: pybricks.messaging.BLERadio
     :no-members:

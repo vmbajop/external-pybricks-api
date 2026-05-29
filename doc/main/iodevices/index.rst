@@ -1,5 +1,3 @@
-.. pybricks-requirements:: pybricks-iodevices
-
 :mod:`iodevices <pybricks.iodevices>` -- Custom devices
 ============================================================
 
@@ -15,11 +13,7 @@
 
 This module has classes for generic and custom input/output devices.
 
-.. pybricks-classlink:: PUPDevice
-
-.. figure:: ../../main/cad/output/iodevice-pupdevice.png
-   :width: 50 %
-   :target: pupdevice.html
+.. pybricks-requirements:: pybricks-iodevices
 
 .. pybricks-classlink:: LWP3Device
 
@@ -27,8 +21,23 @@ This module has classes for generic and custom input/output devices.
    :width: 80 %
    :target: lwp3device.html
 
+.. pybricks-requirements:: pybricks-iodevices
+
 .. pybricks-classlink:: XboxController
 
 .. figure:: ../../main/diagrams_source/xboxcontroller.png
    :width: 40 %
    :target: xboxcontroller.html
+
+.. pybricks-requirements:: pybricks-iodevices
+
+.. pybricks-classlink:: PUPDevice
+
+.. figure:: ../../main/cad/output/iodevice-pupdevice.png
+   :width: 50 %
+   :target: pupdevice.html
+
+.. pybricks-requirements:: ev3 pybricks-iodevices
+
+.. autoclass:: LUMPDevice
+   :no-members:

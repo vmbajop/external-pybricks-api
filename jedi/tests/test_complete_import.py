@@ -104,7 +104,6 @@ def test_from_pybricks_iodevices_import():
     assert [c["insertText"] for c in completions] == [
         "AnalogSensor",
         "DCMotor",
-        "Ev3devSensor",
         "I2CDevice",
         "LUMPDevice",
         "LWP3Device",
