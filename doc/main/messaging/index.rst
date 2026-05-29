@@ -17,6 +17,17 @@
 
     .. automethod:: pybricks.messaging.BLERadio.version
 
+.. autoclass:: pybricks.messaging.AppData
+    :no-members:
+
+    .. automethod:: pybricks.messaging.AppData.get_bytes
+
+    .. automethod:: pybricks.messaging.AppData.write_bytes
+
+    .. automethod:: pybricks.messaging.AppData.configure
+
+    .. automethod:: pybricks.messaging.AppData.close
+
 BLERadio examples
 ------------------
 

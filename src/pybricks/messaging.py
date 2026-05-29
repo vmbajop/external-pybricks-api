@@ -10,16 +10,17 @@ from __future__ import annotations
 
 from typing import (
     abstractmethod,
-    TypeVar,
     Callable,
     Generic,
-    Union,
     Iterable,
-    overload,
+    List,
     Optional,
-    Tuple,
+    overload,
     Sequence,
+    Tuple,
     TYPE_CHECKING,
+    TypeVar,
+    Union,
 )
 
 if TYPE_CHECKING:
@@ -371,3 +372,89 @@ class BluetoothMailboxClient:
         """close()
 
         Closes all connections."""
+
+
+class AppData:
+    """
+    Exchange raw data with the Pybricks Code host application over USB or
+    Bluetooth. This is used by the smart sensor features like the vision
+    processors.
+
+    Each processor has on emode and produces a fixed amount of data. These are
+    continuously sent to the hub as they change. The user code can read these
+    buffered values at any time without blocking. All values are initially zero.
+
+    From the hub's perspective, writing back to the host is an awaitable operation.
+    Can be used to configure modes and mode settings.
+
+    Only one instance may exist at a time. Must be created during program
+    initialization. After that, all methods may be used while multi-tasking.
+    """
+
+    def __init__(self, modes: List[Tuple[int, int]]):
+        """AppData(modes)
+
+        Arguments:
+            modes:
+                A list of ``(mode, size)`` tuples, where ``mode`` is a mode
+                number (0 to 255) and ``size`` is the number of bytes to
+                allocate for that mode's receive buffer. Mode numbers must be
+                unique. The list is sorted by mode number automatically.
+
+        Raises:
+            RuntimeError: If an ``AppData`` instance already exists.
+            TypeError: If ``modes`` is not a list, or if any element is not a
+                ``(mode, size)`` tuple with a mode value of 0 to 255.
+            ValueError: If any mode number appears more than once.
+        """
+
+    def get_bytes(self, mode: int, index: Optional[int] = None) -> Union[bytes, int]:
+        """get_bytes(mode, index=None) -> bytes | int
+
+        Gets data received from the host for the given mode.
+
+        Args:
+            mode (int): The mode number to read.
+            index (int): If given, returns the single byte at this position
+                within the mode's buffer as an integer. Otherwise returns
+                the entire mode buffer as ``bytes``.
+
+        Returns:
+            All received bytes for the mode, or a single byte as an integer
+            if ``index`` is given.
+
+        Raises:
+            ValueError: If ``mode`` was not configured, or if ``index`` is
+                out of range.
+        """
+
+    def write_bytes(self, data: bytes) -> MaybeAwaitable:
+        """write_bytes(data)
+
+        Sends raw bytes to the host application.
+
+        Args:
+            data (bytes): The data to send.
+        """
+
+    def configure(self, mode: int, parameter: int, value: bytes) -> MaybeAwaitable:
+        """configure(mode, parameter, value)
+
+        Sends a configuration command to the host for the given mode.
+
+        This is a wrapper around :meth:`write_bytes`. It prepends a
+        ``[0x01, mode, parameter]`` header to configure mode settings.
+
+        Args:
+            mode (int): The mode number to configure.
+            parameter (int): The parameter identifier within the mode.
+            value (bytes): The configuration value to send.
+        """
+
+    def close(self) -> None:
+        """close()
+
+        Deactivates the data callback and releases the receive buffer.
+
+        This is also called automatically when the object is garbage collected.
+        """
