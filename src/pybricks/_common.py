@@ -127,10 +127,13 @@ class System:
            firmware issue.
          - ``"host_connected_ble"``: ``True`` if the hub is connected to a
            computer, tablet, or phone via Bluetooth, and ``False`` otherwise.
+         - ``"host_connected_usb"``: ``True`` if the hub is connected to a computer
+           via USB and activated in the app. ``False`` otherwise.
          - ``"program_start_type"``: It is ``1`` if the program started
            automatically when the hub was powered on. It is ``2`` if the program
            was started with the hub buttons. It is ``3`` if the program was
            started from your connected computer.
+         - `"program_id"`: Program (slot) number of the currently running program.
 
         Returns:
             A dictionary with system info.
@@ -1212,17 +1215,6 @@ class IMU:
         The heading is 0 when your program starts. The value continues to grow
         even as the robot turns more than 180 degrees. It does not wrap around
         to -180 like it does in some apps.
-
-
-        .. note:: *For now, this method only keeps track of the heading while
-                  the robot is on a flat surface.*
-
-                  This means that the value is
-                  no longer correct if you lift it from the table or turn on
-                  a ramp. Try ``hub.imu.heading('3D')`` for a heading value
-                  that compensates for this. This will become the default in a
-                  future release. If you try it, please let us know on our
-                  forums!
 
         Returns:
             Heading angle relative to starting orientation.
