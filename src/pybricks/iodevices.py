@@ -262,19 +262,34 @@ class UARTDevice:
     """Generic UART device."""
 
     def __init__(
-        self, port: _Port, baudrate: int = 115200, timeout: Optional[int] = None
+        self,
+        port: _Port,
+        baudrate: int = 115200,
+        timeout: Optional[int] = None,
+        power_pin: int = 0,
     ):
-        """UARTDevice(port, baudrate=115200, timeout=None)
+        """UARTDevice(port, baudrate=115200, timeout=None, power_pin=0)
 
         Arguments:
-            port (Port): Port to which the device is connected.
+            port (Port): Port to which the device is connected. On Powered UP
+                hubs, all ports are supported. On EV3, only the sensor ports
+                are supported.
             baudrate (int): Baudrate of the UART device.
-            timeout (Number, ms): How long to wait
-                during ``read`` before giving up. If you choose ``None``,
-                it will wait forever.
+            timeout (Number, ms): How long to wait during ``read`` and
+                ``write`` before giving up. If you choose ``None``, it will
+                wait forever.
+            power_pin (int): Power requirements for the device. Use ``0``
+                (default) for no power on the pins. On Powered UP hubs, use
+                ``1`` or ``2`` for pin 1 or 2, respectively. This will apply
+                battery power to the pin, equivalent to powering a motor.
+                On EV3, use ``1`` to apply battery power to pin 1, though only
+                minimal current is available.
+
+        Raises:
+            ValueError: If ``timeout`` is 0 or negative.
         """
 
-    def read(self, length: int = 1) -> bytes:
+    def read(self, length: int = 1) -> MaybeAwaitableBytes:
         """read(length=1) -> bytes
 
         Reads a given number of bytes from the buffer.
@@ -284,28 +299,38 @@ class UARTDevice:
         exception is raised.
 
         Arguments:
-            length (int): How many bytes to read.
+            length (int): How many bytes to read. Must be at least 1.
 
         Returns:
             Bytes returned from the device.
+
+        Raises:
+            ValueError: If ``length`` is less than 1.
+            OSError: If the read takes longer than ``timeout``.
         """
 
     def read_all(self) -> bytes:
         """read_all() -> bytes
 
-        Reads all bytes from the buffer.
+        Reads all bytes currently in the buffer. Returns immediately without
+        waiting, even if the buffer is empty.
 
         Returns:
-            Bytes returned from the device.
+            Bytes currently in the buffer, or an empty bytes object if there
+            is nothing to read.
         """
 
-    def write(self, data: bytes) -> None:
+    def write(self, data: bytes) -> MaybeAwaitable:
         """write(data)
 
-        Writes bytes.
+        Writes bytes to the device.
 
         Arguments:
             data (bytes): Bytes to be written.
+
+        Raises:
+            TypeError: If ``data`` is not ``bytes``, ``bytearray``, or ``str``.
+            OSError: If the write takes longer than ``timeout``.
         """
 
     def waiting(self) -> int:
@@ -317,10 +342,36 @@ class UARTDevice:
             Number of bytes in the buffer.
         """
 
+    def set_baudrate(self, baudrate: int) -> None:
+        """set_baudrate(baudrate)
+
+        Changes the baud rate of the UART device.
+
+        Arguments:
+            baudrate (int): Not all values may be supported.
+
+        Raises:
+            ValueError: If ``baudrate`` is less than 1.
+        """
+
+    def wait_until(self, pattern: bytes) -> MaybeAwaitable:
+        """wait_until(pattern)
+
+        Waits until a specific byte sequence is received. Bytes that do not
+        match the pattern are discarded.
+
+        Arguments:
+            pattern (bytes): Byte sequence to wait for. Must not be empty.
+
+        Raises:
+            ValueError: If ``pattern`` is empty.
+            OSError: If this method is already in progress.
+        """
+
     def clear(self) -> None:
         """clear()
 
-        Empties the buffer."""
+        Empties the receive buffer."""
 
 
 class LWP3Device:

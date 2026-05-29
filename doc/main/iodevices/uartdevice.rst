@@ -3,8 +3,13 @@
 Generic UART Device
 ^^^^^^^^^^^^^^^^^^^
 
-.. figure:: ../../main/cad/output/iodevice-rj12grey.png
-   :width: 25 %
+.. |uart-wired| image:: ../../main/cad/output/iodevice-rj12grey.png
+   :width: 20 %
+
+.. |uart-wireless| image:: ../../main/cad/output/iodevice-pupdevice.png
+   :width: 50 %
+
+|uart-wired| |uart-wireless|
 
 .. autoclass:: pybricks.iodevices.UARTDevice
 
