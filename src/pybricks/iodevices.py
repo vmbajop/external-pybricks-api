@@ -101,8 +101,8 @@ class PUPDevice:
 class LUMPDevice(PUPDevice):
     """Devices using the LEGO UART Messaging Protocol.
 
-    This is functionally equivalent to the PUPDevice class shown above, since
-    EV3 and Powered UP use the same UART protocol.
+    See the equivalent :class:`PUPDevice() <pybricks.iodevices.PUPDevice>` for
+    a description of available methods.
 
     On EV3, this class provides access to UART devices only. You can use other
     classes to interact with passive devices.
@@ -219,7 +219,8 @@ class I2CDevice:
     def read(
         self, reg: Optional[int] = None, length: int = 1, map=None
     ) -> MaybeAwaitableBytes:
-        """read(reg=None, length=1, map=None) -> bytes
+        """read(reg=None, length=1) -> bytes
+        read(reg=None, length=1, map=callable) -> Any
 
         Reads bytes starting at a given register.
 
@@ -252,8 +253,8 @@ class I2CDevice:
 
         Raises:
             ValueError: If ``reg`` is given and ``data`` is more than 32 bytes.
-            To write more data, omit the ``reg`` argument and include the
-            register as the first byte of ``data``.
+                To write more data, omit the ``reg`` argument and include the
+                register as the first byte of ``data``.
         """
 
 
@@ -462,8 +463,8 @@ class XboxController:
     def connect(self) -> MaybeAwaitable:
         """connect()
 
-        Connects to the Xbox controller. Only needed if you initialized the
-        controller with ``connect=False``.
+        Connects to the Xbox controller. Only needed if you disconnected or
+        initialized the controller with ``connect=False``.
         """
 
     def disconnect(self) -> MaybeAwaitable:

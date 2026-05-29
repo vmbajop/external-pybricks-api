@@ -11,6 +11,12 @@ Xbox Controller
 .. autoclass:: pybricks.iodevices.XboxController
   :no-members:
 
+  .. automethod:: pybricks.iodevices::XboxController.connect
+
+  .. automethod:: pybricks.iodevices::XboxController.disconnect
+
+  .. automethod:: pybricks.iodevices::XboxController.name
+
   .. blockimg:: pybricks_blockButtonIsPressed_XboxController
 
   .. automethod:: pybricks.iodevices::XboxController.buttons.pressed
@@ -64,7 +70,7 @@ Xbox Controller
 .. _xbox-controller-pairing:
 
 Xbox Controller Pairing Instructions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+====================================
 The first time you use a controller with a hub, you will need to pair
 them: Turn the controller on and then press and hold the pairing
 button on the back of the controller for a few seconds. When you release
@@ -74,7 +80,7 @@ When pairing and the connection is succesful, the Xbox button will stop
 flashing and stay on for as long as the program is running.
 
 Repeat Connections
-==================
+------------------
 
 If you keep using the same controller with the same hub, you can simply
 turn the controller on the next time and the hub will connect to it
@@ -86,7 +92,7 @@ connect to another hub, you will need to pair them again as described
 above.
 
 Compatible Controllers
-============================
+----------------------
 
 All Xbox controllers released since 2016 are compatible. This includes the
 controller from the One S (``1708`` from 2016), the Elite Series 2 (``1797``

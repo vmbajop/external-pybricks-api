@@ -7,8 +7,16 @@
    :maxdepth: 1
    :hidden:
 
-   pupdevice
    lwp3device
+
+   analogsensor
+   dcmotor
+   lumpdevice
+   pupdevice
+
+   i2cdevice
+   uartdevice
+   
    xboxcontroller
 
 This module has classes for generic and custom input/output devices.
@@ -39,5 +47,40 @@ This module has classes for generic and custom input/output devices.
 
 .. pybricks-requirements:: ev3 pybricks-iodevices
 
-.. autoclass:: LUMPDevice
-   :no-members:
+.. pybricks-classlink:: LUMPDevice
+
+.. figure:: ../../main/cad/output/iodevice-rj12green.png
+   :width: 20 %
+   :target: lumpdevice.html
+
+.. pybricks-requirements:: ev3 pybricks-iodevices
+
+.. pybricks-classlink:: I2CDevice
+
+.. figure:: ../../main/cad/output/iodevice-rj12cyan.png
+   :width: 20 %
+   :target: i2cdevice.html
+
+.. pybricks-requirements:: ev3 pybricks-iodevices
+
+.. pybricks-classlink:: AnalogSensor
+
+.. figure:: ../../main/cad/output/iodevice-rj12brown.png
+   :width: 20 %
+   :target: analogsensor.html
+
+.. pybricks-requirements:: ev3 pybricks-iodevices
+
+.. pybricks-classlink:: DCMotor
+
+.. figure:: ../../main/cad/output/iodevice-dcmotor.png
+   :width: 40 %
+   :target: dcmotor.html
+
+.. pybricks-requirements:: pybricks-iodevices
+
+.. pybricks-classlink:: UARTDevice
+
+.. figure:: ../../main/cad/output/iodevice-rj12grey.png
+   :width: 20 %
+   :target: uartdevice.html
