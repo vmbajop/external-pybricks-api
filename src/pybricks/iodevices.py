@@ -413,11 +413,12 @@ class XboxController:
 
         Arguments:
             joystick_deadzone (Number, %): Joystick deadzone (0 to 100). Values
-                below this threshold will be reported as 0.
+                below this threshold in both axes will be reported as 0 to
+                prevent stick drift.
             name (str): The Bluetooth name of the Xbox controller to connect to,
                 or ``None`` to connect to any available controller.
             timeout (Number, ms): How long to wait for a connection before
-                giving up.
+                giving up. Choose ``None`` to wait indefinitely.
             connect (bool): Choose ``False`` to skip connecting to the controller.
                 ``connect()`` can be called later to connect.
         """
@@ -442,6 +443,9 @@ class XboxController:
 
         Returns:
             Bluetooth name of the controller.
+
+        Raises:
+            OSError: If the controller is not connected.
         """
 
     def state(self) -> Tuple:
@@ -450,29 +454,43 @@ class XboxController:
         Gets all raw controller input values as a single tuple. This gives
         access to values not exposed by the other methods.
 
+        The joystick axes (x, y, z, rz) are centered at 0. The trigger axes
+        are raw 10-bit values (0-1023).
+
         Returns:
             Tuple of ``(x, y, z, rz, left_trigger, right_trigger, dpad,
             buttons, upload, profile, trigger_switches, paddles)``.
+
+        Raises:
+            OSError: If the controller is not connected.
         """
 
     def joystick_left(self) -> Tuple[int, int]:
         """joystick_left() -> Tuple
 
         Gets the left joystick position as percentages between -100%
-        and 100%. The center position is (0, 0).
+        and 100%. The center position is (0, 0). A square deadzone is applied:
+        if both axes are within the deadzone, both are reported as 0.
 
         Returns:
             Tuple of X (horizontal) and Y (vertical) position.
+
+        Raises:
+            OSError: If the controller is not connected.
         """
 
     def joystick_right(self) -> Tuple[int, int]:
         """joystick_right() -> Tuple
 
         Gets the right joystick position as percentages between -100%
-        and 100%. The center position is (0, 0).
+        and 100%. The center position is (0, 0). A square deadzone is applied:
+        if both axes are within the deadzone, both are reported as 0.
 
         Returns:
             Tuple of X (horizontal) and Y (vertical) position.
+
+        Raises:
+            OSError: If the controller is not connected.
         """
 
     def triggers(self) -> Tuple[int, int]:
@@ -483,6 +501,9 @@ class XboxController:
 
         Returns:
             Tuple of left and right trigger positions.
+
+        Raises:
+            OSError: If the controller is not connected.
         """
 
     def dpad(self) -> int:
@@ -499,6 +520,9 @@ class XboxController:
 
         Returns:
             Direction-pad position, indicating a direction.
+
+        Raises:
+            OSError: If the controller is not connected.
         """
 
     def profile(self) -> int:
@@ -509,6 +533,9 @@ class XboxController:
 
         Returns:
             Profile number.
+
+        Raises:
+            OSError: If the controller is not connected.
         """
 
     def rumble(
@@ -523,22 +550,28 @@ class XboxController:
         Makes the builtin actuators rumble, creating force feedback.
 
         If you give a single ``power`` value, the left and right main actuators
-        will both rumble with that power. For more fine-grained control, set
-        ``power`` as a tuple of four values, which control the left main
-        actuator, right main actuator, left trigger actuator, and the right
-        trigger actuator, respectively. For example, ``power=(0, 0, 100, 0)``
-        makes the left trigger rumble at full power.
+        will both rumble with that power while the trigger actuators stay off.
+        For more fine-grained control, set ``power`` as a tuple of four values,
+        which control the left main actuator, right main actuator, left trigger
+        actuator, and the right trigger actuator, respectively. For example,
+        ``power=(0, 0, 100, 0)`` makes the left trigger rumble at full power.
 
         The rumble runs in the background while your program continues. To
         make your program wait, just pause the program for a matching duration.
         For one rumble, this equals ``duration``. For multiple rumbles, this
         equals ``count * (duration + delay)``.
 
+        This method does nothing if all actuator powers are zero, if
+        ``duration`` is zero, or if ``count`` is less than 1.
+
         Arguments:
-            power (Number, % or tuple): Rumble power.
-            duration (Number, ms): Rumble duration.
-            count (int): Rumble count.
-            delay (Number, ms): Delay before each rumble. Only if ``count > 1``.
+            power (Number, % or tuple): Rumble power. A single value applies
+                to both main actuators (0-100%). A tuple applies individually
+                to (left handle, right handle, left trigger, right trigger).
+            duration (Number, ms): Duration of each rumble. Capped at 2500 ms.
+            count (int): Number of rumbles (0-100).
+            delay (Number, ms): Delay before each rumble. Only used if
+                ``count > 1``. Capped at 2500 ms.
         """
 
 
