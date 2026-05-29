@@ -1,6 +1,9 @@
 Generic I2C Device
 ^^^^^^^^^^^^^^^^^^
 
+EV3 and NXT support connecting generic I2C devices to the hub.
+See :doc:`pinout here <uartdevice>`.
+
 .. figure:: ../../main/cad/output/iodevice-rj12cyan.png
    :width: 25 %
 

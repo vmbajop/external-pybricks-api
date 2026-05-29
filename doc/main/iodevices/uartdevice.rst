@@ -3,13 +3,45 @@
 Generic UART Device
 ^^^^^^^^^^^^^^^^^^^
 
-.. |uart-wired| image:: ../../main/cad/output/iodevice-rj12grey.png
-   :width: 20 %
+Powered Up and EV3 support connecting generic UART devices to the hub. The pinout
+is shown below. Note the orientation of the connector. For EV3, the internal
+wire colors match those on the diagram below.
 
-.. |uart-wireless| image:: ../../main/cad/output/iodevice-pupdevice.png
+.. image:: pinout_numbered.jpg
    :width: 50 %
 
-|uart-wired| |uart-wireless|
+.. list-table::
+   :header-rows: 1
+
+   * - Pin
+     - Powered Up (UART)
+     - EV3 (UART sensor)
+     - EV3 (I2C sensor)
+   * - 1 (white)
+     - Motor Terminal 1
+     - Optional battery power
+     - Optional battery power
+   * - 2 (black)
+     - Motor Terminal 2
+     - N/A
+     - N/A
+   * - 3 (red)
+     - Ground
+     - Ground
+     - Ground
+   * - 4 (green)
+     - VCC (3.3 V)
+     - VCC (5 V)
+     - VCC (5 V)
+   * - 5 (yellow)
+     - Hub TX (Sensor RX) (3.3 V)
+     - Hub TX (Sensor RX) (3.3 V)
+     - SCL (master) (3.3 V)
+   * - 6 (blue)
+     - Hub RX (Sensor TX) (3.3 V)
+     - Hub RX (Sensor TX) (3.3 V)
+     - SDA (master) (3.3 V)
+
 
 .. autoclass:: pybricks.iodevices.UARTDevice
 

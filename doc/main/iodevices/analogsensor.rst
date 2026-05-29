@@ -1,6 +1,6 @@
 .. pybricks-requirements:: pybricks-iodevices ev3
 
-EV3 Analog Sensor
+Analog Sensor
 ^^^^^^^^^^^^^^^^^
 
 .. figure:: ../../main/cad/output/iodevice-rj12brown.png

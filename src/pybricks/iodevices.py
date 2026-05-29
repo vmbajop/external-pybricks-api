@@ -181,7 +181,12 @@ class AnalogSensor:
 
 
 class I2CDevice:
-    """Generic or custom I2C device."""
+    """Generic or custom I2C device.
+
+    Note: Use the ``power_pin`` option at your own risk. Applying power to the
+    pins can damage your hub or device if you are not careful. When you use
+    this option, you will be prompted to confirm that you understand the risks.
+    """
 
     def __init__(
         self,
@@ -259,7 +264,12 @@ class I2CDevice:
 
 
 class UARTDevice:
-    """Generic UART device."""
+    """Generic UART device.
+
+    Note: Use the ``power_pin`` option at your own risk. Applying power to the
+    pins can damage your hub or device if you are not careful. When you use
+    this option, you will be prompted to confirm that you understand the risks.
+    """
 
     def __init__(
         self,

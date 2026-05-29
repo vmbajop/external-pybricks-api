@@ -1,4 +1,4 @@
-EV3 DC Motor
+DC Motor
 ^^^^^^^^^^^^^^^^^^
 
 .. note::
