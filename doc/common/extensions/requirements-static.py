@@ -18,7 +18,9 @@ FEATURES_MEDIUM = FEATURES_SMALL | {
 }
 
 # Large feature set.
-FEATURES_LARGE = FEATURES_MEDIUM | set()
+FEATURES_LARGE = FEATURES_MEDIUM | {
+    "ble-extra",  # Extra features such as pairing or multiple connections.
+}
 
 # Features per hub.
 HUB_FEATURES = {

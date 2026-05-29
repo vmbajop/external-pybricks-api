@@ -168,7 +168,7 @@ CONSTRUCTOR_PARAMS = [
     pytest.param(
         "pybricks.pupdevices",
         "Remote",
-        [["name: Optional[str]=None", "timeout: int=10000"]],
+        [["name: Optional[str]=None", "timeout: int=10000", "connect: bool=True"]],
     ),
     # TODO: iodevices go here
     pytest.param(
@@ -933,7 +933,7 @@ METHOD_PARAMS = [
         "pybricks.pupdevices",
         "Remote",
         "name",
-        [(["name: str"], "None"), ([], "str")],
+        [(["name: str"], "MaybeAwaitable"), ([], "str")],
     ),
     pytest.param(
         "pybricks.pupdevices",

@@ -435,8 +435,11 @@ class LWP3Device:
     def connect(self) -> MaybeAwaitable:
         """connect()
 
-        Connects to the remote LWP3Device. Only needed if you initialized the
-        device with ``connect=False``.
+        Connects to the device. Only needed if you disconnected or initialized
+        with ``connect=False``.
+
+        Raises:
+            OSError: If the connection attempt fails or times out.
         """
 
     @overload
@@ -454,6 +457,9 @@ class LWP3Device:
         Arguments:
             name (str): New Bluetooth name of the device. If no name is given,
                 this method returns the current name.
+
+        Raises:
+            OSError: If the device is not connected.
         """
 
     def write(self, buf: bytes) -> MaybeAwaitable:
@@ -462,7 +468,11 @@ class LWP3Device:
         Sends a message to the remote hub.
 
         Arguments:
-            buf (bytes): The raw binary message to send.
+            buf (bytes): The raw binary message to send. Maximum 20 bytes.
+
+        Raises:
+            ValueError: If the message exceeds 20 bytes.
+            OSError: If the device is not connected or the write fails.
         """
 
     def read(self) -> bytes | None:
@@ -484,7 +494,10 @@ class LWP3Device:
     def disconnect(self) -> MaybeAwaitable:
         """disconnect()
 
-        Disconnects the remote LWP3Device from the hub.
+        Disconnects the device.
+
+        Raises:
+            OSError: If disconnecting fails.
         """
 
 
