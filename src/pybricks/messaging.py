@@ -1,29 +1,154 @@
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2018-2020 The Pybricks Authors
+# Copyright (c) 2018-2026 The Pybricks Authors
 
 """
-Classes to exchange messages between EV3 bricks.
+Classes to send and receive messages from another device.
 """
 
 from __future__ import annotations
 
-from typing import abstractmethod, TypeVar, Optional, Callable, Generic
+
+from typing import (
+    abstractmethod,
+    TypeVar,
+    Callable,
+    Generic,
+    Union,
+    Iterable,
+    overload,
+    Optional,
+    Tuple,
+    Sequence,
+    TYPE_CHECKING,
+)
+
+if TYPE_CHECKING:
+    from ._common import (
+        MaybeAwaitable,
+    )
 
 T = TypeVar("T")
 
 
+class BLERadio:
+    """
+    Send and receive messages without a connection using Bluetooth Low Energy.
+
+    .. versionadded:: 4.0
+
+        This used to be part of each hub class.
+    """
+
+    def __init__(
+        self,
+        broadcast_channel: Optional[int] = None,
+        observe_channels: Sequence[int] = [],
+    ):
+        """BLERadio(broadcast_channel=None, observe_channels=[])
+
+        Arguments:
+            broadcast_channel:
+                Channel number (0 to 255) used to broadcast data.
+                Choose ``None`` when not using broadcasting.
+            observe_channels:
+                A list of channels to listen to when ``hub.ble.observe()`` is
+                called. Listening to more channels requires more memory.
+                Default is an empty list (no channels).
+        """
+
+    @overload
+    def broadcast(self, data: None) -> MaybeAwaitable: ...
+
+    @overload
+    def broadcast(
+        self, data: Iterable[Union[bool, int, float, str, bytes]]
+    ) -> MaybeAwaitable: ...
+
+    @overload
+    def broadcast(
+        self, data: Union[bool, int, float, str, bytes]
+    ) -> MaybeAwaitable: ...
+
+    def broadcast(self, data: object) -> MaybeAwaitable:
+        """broadcast(data)
+
+        Starts broadcasting the given data on the previously selected
+        ``broadcast_channel``.
+
+        Data may be of type ``int``, ``float``, ``str``, ``bytes``,
+        ``True``, or ``False``. It can also be a list or tuple of these.
+
+        Choose ``None`` to stop broadcasting. This helps improve performance
+        when you don't need the broadcast feature, especially when observing
+        at the same time.
+
+        The total data size is quite limited (26 bytes). ``True`` and
+        ``False`` take 1 byte each. ``float`` takes 5 bytes. ``int`` takes 2 to
+        5 bytes depending on how big the number is. ``str`` and ``bytes`` take
+        the number of bytes in the object plus one extra byte.
+
+        When multitasking, only one task can broadcast at a time. To broadcast
+        information from multiple tasks (or block stacks), you could use a
+        dedicated separate task that broadcast new values when one or more
+        variables change.
+
+        Args:
+            data: The value or values to be broadcast.
+        """
+
+    def observe(self, channel: int) -> Optional[
+        Union[
+            Tuple[Union[bool, int, float, str, bytes], ...],
+            Union[bool, int, float, str, bytes],
+        ]
+    ]:
+        """observe(channel) -> bool | int | float | str | bytes | tuple | None
+
+        Retrieves the last observed data for a given channel.
+
+        Receiving data is more reliable when the hub is not connected
+        to a computer or other devices at the same time.
+
+        Args:
+            channel (int): The channel to observe (0 to 255).
+
+        Returns:
+            The received data in the same format as it was sent, or ``None``
+            if no recent data is available.
+        """
+
+    def signal_strength(self, channel: int) -> int:
+        """signal_strength(channel) -> int: dBm
+
+        Gets the average signal strength in dBm for the given channel.
+
+        This indicates how near the broadcasting device is. Nearby devices
+        may have a signal strength around -40 dBm, while far away devices
+        might have a signal strength around -70 dBm.
+
+        Args:
+            channel (int): The channel number (0 to 255).
+
+        Returns:
+            The signal strength or ``-128`` if there is no recent observed data.
+        """
+
+    def version(self) -> str:
+        """version() -> str
+
+        Gets the firmware version from the Bluetooth chip.
+        """
+
+
 class Connection:
     @abstractmethod
-    def read_from_mailbox(self, name: str) -> bytes:
-        ...
+    def read_from_mailbox(self, name: str) -> bytes: ...
 
     @abstractmethod
-    def send_to_mailbox(self, name: str, data: bytes) -> None:
-        ...
+    def send_to_mailbox(self, name: str, data: bytes) -> None: ...
 
     @abstractmethod
-    def wait_for_mailbox_update(self, name: str) -> None:
-        ...
+    def wait_for_mailbox_update(self, name: str) -> None: ...
 
 
 class Mailbox(Generic[T]):

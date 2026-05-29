@@ -84,20 +84,6 @@ Technic Hub
 
     .. automethod:: pybricks.hubs::TechnicHub.imu.settings
 
-    .. rubric:: Using connectionless Bluetooth messaging
-
-    .. blockimg:: pybricks_blockBleBroadcast_TechnicHub
-
-    .. automethod:: pybricks.hubs::TechnicHub.ble.broadcast
-
-    .. blockimg:: pybricks_blockBleObserve_TechnicHub
-
-    .. automethod:: pybricks.hubs::TechnicHub.ble.observe
-
-    .. automethod:: pybricks.hubs::TechnicHub.ble.signal_strength
-
-    .. automethod:: pybricks.hubs::TechnicHub.ble.version
-
     .. rubric:: Using the battery
 
     .. blockimg:: pybricks_blockBatteryMeasure_TechnicHub_battery.voltage
@@ -194,23 +180,6 @@ Reading acceleration and angular velocity on one axis
 
 .. literalinclude::
     ../../../examples/pup/hub_common/build/imu_read_scalar_technichub.py
-
-
-Bluetooth examples
-------------------
-
-Broadcasting data to other hubs
-*******************************
-
-.. literalinclude::
-    ../../../examples/pup/hub_common/build/ble_broadcast_technichub.py
-
-Observing data from other hubs
-******************************
-
-.. literalinclude::
-    ../../../examples/pup/hub_common/build/ble_observe_technichub.py
-
 
 Button and system examples
 ----------------------------------

@@ -5,7 +5,6 @@
 Tests for correct signatures of the pupdevices.Motor class.
 """
 
-
 from itertools import zip_longest
 import json
 
@@ -88,20 +87,15 @@ CONSTRUCTOR_PARAMS = [
         "MoveHub",
         [
             [
-                "broadcast_channel: Optional[int]=None",
-                "observe_channels: Sequence[int]=[]",
+                "top_side: Axis=Axis.Z",
+                "front_side: Axis=Axis.X",
             ]
         ],
     ),
     pytest.param(
         "pybricks.hubs",
         "CityHub",
-        [
-            [
-                "broadcast_channel: Optional[int]=None",
-                "observe_channels: Sequence[int]=[]",
-            ]
-        ],
+        [[]],
     ),
     pytest.param(
         "pybricks.hubs",
@@ -110,8 +104,6 @@ CONSTRUCTOR_PARAMS = [
             [
                 "top_side: Axis=Axis.Z",
                 "front_side: Axis=Axis.X",
-                "broadcast_channel: Optional[int]=None",
-                "observe_channels: Sequence[int]=[]",
             ]
         ],
     ),
@@ -122,8 +114,6 @@ CONSTRUCTOR_PARAMS = [
             [
                 "top_side: Axis=Axis.Z",
                 "front_side: Axis=Axis.X",
-                "broadcast_channel: Optional[int]=None",
-                "observe_channels: Sequence[int]=[]",
             ]
         ],
     ),
@@ -134,8 +124,6 @@ CONSTRUCTOR_PARAMS = [
             [
                 "top_side: Axis=Axis.Z",
                 "front_side: Axis=Axis.X",
-                "broadcast_channel: Optional[int]=None",
-                "observe_channels: Sequence[int]=[]",
             ]
         ],
     ),

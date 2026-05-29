@@ -22,10 +22,17 @@ FEATURES_LARGE = FEATURES_MEDIUM | set()
 
 # Features per hub.
 HUB_FEATURES = {
-    "movehub": {"movehub"} | FEATURES_SMALL,
-    "cityhub": {"cityhub"} | FEATURES_MEDIUM,
-    "technichub": {"technichub", "gyro", "xbox-controller"} | FEATURES_MEDIUM,
-    "primehub": {"primehub", "inventorhub", "light-matrix", "gyro", "xbox-controller"}
+    "movehub": {"movehub", "ble"} | FEATURES_SMALL,
+    "cityhub": {"cityhub", "ble"} | FEATURES_MEDIUM,
+    "technichub": {"technichub", "gyro", "xbox-controller", "ble"} | FEATURES_MEDIUM,
+    "primehub": {
+        "primehub",
+        "inventorhub",
+        "light-matrix",
+        "gyro",
+        "xbox-controller",
+        "ble",
+    }
     | FEATURES_LARGE,
     "inventorhub": {
         "primehub",
@@ -33,9 +40,10 @@ HUB_FEATURES = {
         "light-matrix",
         "gyro",
         "xbox-controller",
+        "ble",
     }
     | FEATURES_LARGE,
-    "essentialhub": {"essentialhub", "gyro", "xbox-controller"} | FEATURES_LARGE,
+    "essentialhub": {"essentialhub", "gyro", "xbox-controller", "ble"} | FEATURES_LARGE,
 }
 
 
@@ -94,9 +102,7 @@ class PybricksRequirementsStaticDirective(Directive):
                 </tbody>
             </table>
         </div>
-        """.format(
-            compat_row
-        )
+        """.format(compat_row)
 
         # Return the node.
         node = nodes.raw("", html, format="html")

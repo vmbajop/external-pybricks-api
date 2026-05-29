@@ -60,6 +60,7 @@ above to reveal this menu.
    parameters/index
    tools/index
    robotics
+   messaging/index
    signaltypes
 
 .. toctree::
