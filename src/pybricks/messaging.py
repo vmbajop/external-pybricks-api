@@ -458,3 +458,8 @@ class AppData:
 
         This is also called automatically when the object is garbage collected.
         """
+
+
+if TYPE_CHECKING:
+    del MaybeAwaitable
+    del T

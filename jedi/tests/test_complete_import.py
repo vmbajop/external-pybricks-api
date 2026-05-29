@@ -61,6 +61,7 @@ def test_from_pybricks_import():
     assert [c["insertText"] for c in completions] == [
         "hubs",
         "iodevices",
+        "messaging",
         "parameters",
         "pupdevices",
         "robotics",
@@ -75,6 +76,7 @@ def test_from_pybricks_dot():
     assert [c["insertText"] for c in completions] == [
         "hubs",
         "iodevices",
+        "messaging",
         "parameters",
         "pupdevices",
         "robotics",
