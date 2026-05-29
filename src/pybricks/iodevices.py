@@ -11,7 +11,7 @@ from . import _common
 from .parameters import Port as _Port
 
 if TYPE_CHECKING:
-    from ._common import MaybeAwaitable, MaybeAwaitableTuple
+    from ._common import MaybeAwaitable, MaybeAwaitableBytes, MaybeAwaitableTuple
     from .parameters import Number
 
 
@@ -188,45 +188,72 @@ class I2CDevice:
         port: _Port,
         address: int,
         custom: bool = False,
-        powered: bool = False,
+        power_pin: int = 0,
         nxt_quirk: bool = False,
     ):
-        """I2CDevice(port, address, custom=False, powered=False, nxt_quirk=False)
+        """I2CDevice(port, address, custom=False, power_pin=0, nxt_quirk=False)
 
         Arguments:
             port (Port): Port to which the device is connected.
-            address(int): I2C address of the client device. See
+            address (int): I2C address of the client device. See
                 :ref:`I2C Addresses <i2caddress>`.
             custom (bool): Set to ``True`` if you are using a custom I2C device.
-            powered (bool): Set to ``True`` to power the I2C device.
+            power_pin (int): Power requirements for the device. Use
+                ``0`` (default) for no power on the pins. On NXT and EV3, use ``1``
+                to apply battery power to pin 1. Other pins are not supported.
             nxt_quirk (bool): Set to ``True`` for older NXT I2C sensors that
                 need slower compatibility timing to communicate reliably,
                 such as the old NXT Ultrasonic Sensor.
         """
 
-    def read(self, reg: Optional[int], length: Optional[int] = 1) -> bytes:
-        """read(reg, length=1)
+    @overload
+    def read(
+        self, reg: Optional[int] = None, length: int = 1
+    ) -> MaybeAwaitableBytes: ...
 
-        Reads bytes, starting at a given register.
+    @overload
+    def read(
+        self, reg: Optional[int] = None, length: int = 1, map: callable = ...
+    ) -> MaybeAwaitable: ...
+
+    def read(
+        self, reg: Optional[int] = None, length: int = 1, map=None
+    ) -> MaybeAwaitableBytes:
+        """read(reg=None, length=1, map=None) -> bytes
+
+        Reads bytes starting at a given register.
 
         Arguments:
-            reg (int): Register at which to begin
-                reading: 0--255 or 0x00--0xFF.
+            reg (int): Register at which to begin reading: 0--255 or
+                0x00--0xFF. Use ``None`` to read without writing a register
+                address first.
             length (int): How many bytes to read.
+            map (callable): Optional callable to convert the returned bytes.
+                If given, it is called with the bytes as its argument and its
+                return value is returned instead.
 
         Returns:
-            Bytes returned from the device.
+            Bytes returned from the device, or the return value of ``map``
+            if a callable was provided.
         """
 
-    def write(self, reg: Optional[int], data: Optional[bytes] = None) -> None:
-        """write(reg, data=None)
+    def write(
+        self, reg: Optional[int] = None, data: Optional[bytes] = None
+    ) -> MaybeAwaitable:
+        """write(reg=None, data=None)
 
-        Writes bytes, starting at a given register.
+        Writes bytes, optionally starting at a given register.
 
         Arguments:
-            reg (int): Register at which to begin
-                writing: 0--255 or 0x00--0xFF.
-            data (bytes): Bytes to be written.
+            reg (int): Register at which to begin writing: 0--255 or
+                0x00--0xFF. Use ``None`` to write without a register prefix.
+            data (bytes): Bytes to be written. Use ``None`` to write nothing
+                after the register.
+
+        Raises:
+            ValueError: If ``reg`` is given and ``data`` is more than 32 bytes.
+            To write more data, omit the ``reg`` argument and include the
+            register as the first byte of ``data``.
         """
 
 
@@ -587,5 +614,6 @@ class XboxController:
 # hide from jedi
 if TYPE_CHECKING:
     del MaybeAwaitable
+    del MaybeAwaitableBytes
     del MaybeAwaitableTuple
     del Number

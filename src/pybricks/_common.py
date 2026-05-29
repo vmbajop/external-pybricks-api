@@ -40,6 +40,8 @@ if TYPE_CHECKING:
 
     class MaybeAwaitableColor(Color, Awaitable[Color]): ...
 
+    class MaybeAwaitableBytes(bytes, Awaitable[bytes]): ...
+
 
 class System:
     """System control actions for a hub."""
