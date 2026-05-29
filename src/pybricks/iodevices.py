@@ -122,7 +122,11 @@ class AnalogSensor:
         Arguments:
             port (Port): Port to which the sensor is connected.
             custom (bool): Set to ``True`` if you are using a custom analog
-                sensor, such as a passive RCX sensor.
+                sensor.
+
+        Raises:
+            OSError: If no standard LEGO analog sensor is
+                detected on the port. Only applies if ``custom=False``.
         """
 
     def voltage(self) -> int:
@@ -140,10 +144,15 @@ class AnalogSensor:
         Measures resistance.
 
         This value is only meaningful if the analog device is a passive load
-        such as a resistor or thermistor.
+        such as a resistor or thermistor. It is calculated assuming a 10 kΩ
+        internal pull-up resistor forming a voltage divider.
+
+        If the circuit is open (no load connected), the maximum integer value
+        is returned.
 
         Returns:
-            Resistance of the analog device.
+            Resistance of the analog device, or the maximum integer value
+            if the circuit is open.
         """
 
     def active(self) -> None:
