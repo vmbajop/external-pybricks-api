@@ -35,10 +35,10 @@ Broadcasting data to other hubs
 *******************************
 
 .. literalinclude::
-    ../../../examples/pup/hub_common/build/ble_broadcast_cityhub.py
+    ../../../examples/pup/ble_radio/ble_broadcast.py
 
 Observing data from other hubs
 ******************************
 
 .. literalinclude::
-    ../../../examples/pup/hub_common/build/ble_observe_cityhub.py
+    ../../../examples/pup/ble_radio/ble_observe.py
