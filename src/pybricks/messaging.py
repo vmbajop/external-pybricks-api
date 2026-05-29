@@ -94,6 +94,12 @@ class BLERadio:
 
         Args:
             data: The value or values to be broadcast.
+
+        Raises:
+            RuntimeError: If no ``broadcast_channel`` was configured.
+            ValueError: If the encoded data exceeds 26 bytes.
+            TypeError: If ``data`` contains a value that is not ``bool``,
+                ``int``, ``float``, ``str``, or ``bytes``.
         """
 
     def observe(self, channel: int) -> Optional[
@@ -110,11 +116,15 @@ class BLERadio:
         to a computer or other devices at the same time.
 
         Args:
-            channel (int): The channel to observe (0 to 255).
+            channel (int): The channel to observe. Must be one of the channels
+                given to ``observe_channels`` when creating this object.
 
         Returns:
             The received data in the same format as it was sent, or ``None``
-            if no recent data is available.
+            if no data has been received within the last second.
+
+        Raises:
+            ValueError: If ``channel`` was not in ``observe_channels``.
         """
 
     def signal_strength(self, channel: int) -> int:
@@ -127,10 +137,15 @@ class BLERadio:
         might have a signal strength around -70 dBm.
 
         Args:
-            channel (int): The channel number (0 to 255).
+            channel (int): The channel number. Must be one of the channels
+                given to ``observe_channels`` when creating this object.
 
         Returns:
-            The signal strength or ``-128`` if there is no recent observed data.
+            The signal strength, or ``-128`` if no data has been received
+            within the last second.
+
+        Raises:
+            ValueError: If ``channel`` was not in ``observe_channels``.
         """
 
     def version(self) -> str:
