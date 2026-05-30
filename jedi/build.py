@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Builds the @pybricks/jedi npm package into npm-build/.
 
 import email.parser
 import json
@@ -6,6 +7,7 @@ import pathlib
 import shutil
 import subprocess
 import sys
+import tomllib
 import zipfile
 
 if len(sys.argv) != 2:
@@ -15,8 +17,8 @@ if len(sys.argv) != 2:
 VERSION = sys.argv[1]
 
 ROOT_DIR = pathlib.Path(__file__).parent.resolve()
-JEDI_SRC_DIR = (ROOT_DIR / ".." / ".." / "jedi").resolve()
-BUILD_DIR = (ROOT_DIR / "build").resolve()
+REPO_ROOT_DIR = (ROOT_DIR / "..").resolve()
+BUILD_DIR = ROOT_DIR / "npm-build"
 
 package_json = {
     "name": "@pybricks/jedi",
@@ -25,7 +27,7 @@ package_json = {
     "repository": {
         "type": "git",
         "url": "git+https://github.com/pybricks/pybricks-api.git",
-        "directory": "npm/jedi",
+        "directory": "jedi",
     },
     "publishConfig": {"registry": "https://registry.npmjs.org", "access": "public"},
 }
@@ -38,24 +40,28 @@ whl_map: dict[str, str] = {}
 shutil.rmtree(BUILD_DIR, True)
 BUILD_DIR.mkdir()
 
-# build pybricks-jedi wheel from local source
-subprocess.check_call(["poetry", "build", "--format=wheel"], cwd=JEDI_SRC_DIR)
+# build pybricks api wheel from local source so pip uses it instead of fetching from PyPI
+subprocess.check_call(["poetry", "build", "--format=wheel"], cwd=REPO_ROOT_DIR)
 
-# copy locally built wheel to build dir
-for whl in (JEDI_SRC_DIR / "dist").glob("pybricks_jedi-*.whl"):
+# copy locally built pybricks wheel to build dir
+for whl in (REPO_ROOT_DIR / "dist").glob("pybricks-*.whl"):
     shutil.copy(whl, BUILD_DIR)
 
-# download transitive dependencies from PyPI, using the local wheel to satisfy pybricks-jedi itself
+# build pybricks-jedi wheel from local source
+subprocess.check_call(["poetry", "build", "--format=wheel"], cwd=ROOT_DIR)
+
+# copy locally built wheel to build dir
+for whl in (ROOT_DIR / "dist").glob("pybricks_jedi-*.whl"):
+    shutil.copy(whl, BUILD_DIR)
+
+# download transitive dependencies using versions pinned in poetry.lock
+transitive_packages = ["jedi", "parso", "docstring-parser", "typing-extensions"]
+with open(ROOT_DIR / "poetry.lock", "rb") as f:
+    lock = tomllib.load(f)
+lock_versions = {pkg["name"]: pkg["version"] for pkg in lock["package"]}
+transitive = [f"{pkg}=={lock_versions[pkg]}" for pkg in transitive_packages]
 subprocess.check_call(
-    [
-        sys.executable,
-        "-m",
-        "pip",
-        "download",
-        "--only-binary=any",
-        f"--find-links={BUILD_DIR}",
-        "pybricks-jedi",
-    ],
+    [sys.executable, "-m", "pip", "download", "--only-binary=any"] + transitive,
     cwd=BUILD_DIR,
 )
 
@@ -96,7 +102,7 @@ for whl in BUILD_DIR.glob("*.whl"):
             license_identifiers.add(license)
 
         if whl.name.startswith("pybricks_jedi-"):
-            with open(JEDI_SRC_DIR / "LICENSE") as lf:
+            with open(ROOT_DIR / "LICENSE") as lf:
                 license_text[whl.name] = lf.read()
         else:
             try:
@@ -137,5 +143,4 @@ with open(BUILD_DIR / "LICENSE", "w") as f:
 
 # copy additional files
 
-for file in ("README.md",):
-    shutil.copy(ROOT_DIR / file, BUILD_DIR / file)
+shutil.copy(ROOT_DIR / "README.md", BUILD_DIR / "README.md")
