@@ -265,21 +265,6 @@ class DriveBase:
                 radius cannot be zero. Use :meth:`.turn` for in-place turns.
         """
 
-    def curve(
-        self, radius: Number, angle: Number, then: Stop = Stop.HOLD, wait: bool = True
-    ) -> MaybeAwaitable:
-        """curve(radius, angle, then=Stop.HOLD, wait=True)
-
-        Drives an arc along a circle of a given radius, by a given angle.
-
-        Arguments:
-            radius (Number, mm): Radius of the circle.
-            angle (Number, deg): Angle along the circle.
-            then (Stop): What to do after coming to a standstill.
-            wait (bool): Wait for the maneuver to complete before continuing
-                         with the rest of the program.
-        """
-
     def done(self) -> bool:
         """done() -> bool
 

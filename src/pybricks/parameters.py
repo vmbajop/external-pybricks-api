@@ -58,16 +58,12 @@ class _PybricksEnum(Enum, metaclass=_PybricksEnumMeta):
 
 
 class Axis:
-    """Unit axes of a coordinate system.
-
-    .. data:: X = vector(1, 0, 0)
-    .. data:: Y = vector(0, 1, 0)
-    .. data:: Z = vector(0, 0, 1)
-
-    """
+    """Unit axes of a coordinate system."""
 
     X: _Matrix = _vector(1, 0, 0)
+
     Y: _Matrix = _vector(0, 1, 0)
+
     Z: _Matrix = _vector(0, 0, 1)
 
 

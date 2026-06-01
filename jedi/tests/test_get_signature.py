@@ -984,12 +984,13 @@ METHOD_PARAMS = [
     pytest.param(
         "pybricks.robotics",
         "DriveBase",
-        "curve",
+        "arc",
         [
             (
                 [
                     "radius: Number",
-                    "angle: Number",
+                    "angle: Number=None",
+                    "distance: Number=None",
                     "then: Stop=Stop.HOLD",
                     "wait: bool=True",
                 ],

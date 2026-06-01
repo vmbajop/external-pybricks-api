@@ -14,14 +14,12 @@ automatically detect the motor and use the correct and safe settings.
    :width: 40 %
 
 .. autoclass:: pybricks.iodevices.DCMotor
-    :noindex:
     :no-members:
 
     .. automethod:: pybricks.iodevices.DCMotor.dc
-        :noindex:
 
     .. automethod:: pybricks.iodevices.DCMotor.brake
-        :noindex:
 
     .. automethod:: pybricks.iodevices.DCMotor.stop
-        :noindex:
+
+    .. automethod:: pybricks.iodevices.DCMotor.settings
