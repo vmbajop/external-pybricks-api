@@ -10,6 +10,8 @@ Prime Hub / Inventor Hub
 
 .. blockimg:: pybricks_variables_set_inventor_hub_option4
 
+.. currentmodule:: pybricks.hubs
+
 .. class:: InventorHub
 
     This class is the same as the ``PrimeHub`` class, shown below. Both classes
