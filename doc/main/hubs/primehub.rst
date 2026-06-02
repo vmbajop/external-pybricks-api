@@ -8,7 +8,7 @@ Prime Hub / Inventor Hub
 
 .. blockimg:: pybricks_variables_set_inventor_hub_option0
 
-.. blockimg:: pybricks_variables_set_inventor_hub_option4
+.. blockimg:: pybricks_variables_set_inventor_hub_option1
 
 .. currentmodule:: pybricks.hubs
 
@@ -21,7 +21,7 @@ Prime Hub / Inventor Hub
 
 .. blockimg:: pybricks_variables_set_prime_hub_option0
 
-.. blockimg:: pybricks_variables_set_prime_hub_option4
+.. blockimg:: pybricks_variables_set_prime_hub_option1
 
 .. autoclass:: pybricks.hubs.PrimeHub
     :no-members:

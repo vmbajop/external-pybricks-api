@@ -8,7 +8,7 @@ Technic Hub
 
 .. blockimg:: pybricks_variables_set_technic_hub_option0
 
-.. blockimg:: pybricks_variables_set_technic_hub_option4
+.. blockimg:: pybricks_variables_set_technic_hub_option1
 
 .. autoclass:: pybricks.hubs.TechnicHub
     :no-members:

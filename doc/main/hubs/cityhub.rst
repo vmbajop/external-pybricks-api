@@ -7,8 +7,6 @@ City Hub
 
 .. blockimg:: pybricks_variables_set_city_hub_option0
 
-.. blockimg:: pybricks_variables_set_city_hub_option3
-
 .. autoclass:: pybricks.hubs.CityHub
     :no-members:
 

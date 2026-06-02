@@ -10,7 +10,7 @@ Move Hub
 
 .. blockimg:: pybricks_variables_set_move_hub_option0
 
-.. blockimg:: pybricks_variables_set_move_hub_option4
+.. blockimg:: pybricks_variables_set_move_hub_option1
 
 .. autoclass:: pybricks.hubs.MoveHub
     :no-members:

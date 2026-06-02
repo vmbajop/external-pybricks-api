@@ -19,21 +19,25 @@
     This is measured using the internal rotation sensors. Because wheels may
     slip while moving, the traveled distance and angle are only estimates.
 
-    .. blockimg:: pybricks_blockDriveBaseDrive_drivebase_drive_straight
+    .. blockimg:: pybricks_blockDriveBaseMove_drivebase_move_straight
 
     .. automethod:: pybricks.robotics.DriveBase.straight
 
-    .. blockimg:: pybricks_blockDriveBaseDrive_drivebase_drive_turn
+    .. blockimg:: pybricks_blockDriveBaseMove_drivebase_move_turn_by
+
+    .. blockimg:: pybricks_blockDriveBaseMove_drivebase_move_turn_to
 
     .. automethod:: pybricks.robotics.DriveBase.turn
 
-    .. blockimg:: pybricks_blockDriveBaseDrive2_drivebase_drive_arc_angle
+    .. blockimg:: pybricks_blockDriveBaseMove_drivebase_move_arc_deg
 
-    .. blockimg:: pybricks_blockDriveBaseDrive2_drivebase_drive_arc_distance
+    .. blockimg:: pybricks_blockDriveBaseMove_drivebase_move_arc_mm
 
     .. automethod:: pybricks.robotics.DriveBase.arc
 
     .. pybricks-requirements:: stm32-float
+
+    .. blockimg:: pybricks_blockDriveBaseMove_drivebase_move_coordinates
 
     .. automethod:: pybricks.robotics.DriveBase.move_by
 
@@ -57,7 +61,7 @@
     using :meth:`.drive` again. For example, you can drive until a
     sensor is triggered and then stop or turn around.
 
-    .. blockimg:: pybricks_blockDriveBaseDrive_drivebase_drive_forever
+    .. blockimg:: pybricks_blockDriveBaseStart
 
     .. automethod:: pybricks.robotics.DriveBase.drive
 
@@ -128,7 +132,7 @@
     ``then=Stop.COAST`` in your last
     :meth:`straight <pybricks.robotics.DriveBase.straight>`,
     :meth:`turn <pybricks.robotics.DriveBase.turn>`, or
-    :meth:`curve <pybricks.robotics.DriveBase.arc>` command.
+    :meth:`arc <pybricks.robotics.DriveBase.arc>` command.
 
     .. _measuring:
 
